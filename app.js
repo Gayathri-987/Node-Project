@@ -1,8 +1,8 @@
-const { sequelize } = require('../models')
+const { sequelize } = require('./models')
 const express = require('express')
 const bcrypt = require('bcrypt')
 const cors = require('cors')
-const { User,Post,Expenses } = require('../models');
+const { User,Post,Expenses } = require('./models');
 
 
 const app = express()
