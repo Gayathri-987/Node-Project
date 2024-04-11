@@ -1,23 +1,17 @@
-const { sequelize } = require('./models')
+const { sequelize } = require('../models')
 const express = require('express')
 const bcrypt = require('bcrypt')
-const router = express.Router()
 const cors = require('cors')
-const { User,Post,Expenses } = require('./models');
+const { User,Post,Expenses } = require('../models');
 
 
 const app = express()
-app.use('/.netlify/functions/api', router);
+app.use(express.json())
 app.use(cors({
     origin: 'http://localhost:3000'
   }));
-
-  router.get('/', (req, res) => {
-    res.send("app running")
-   
-});
 // Registration
-router.post('/register', async (req, res) => {
+app.post('/register', async (req, res) => {
     const { username, email, role, password } = req.body;
   
     try {  
@@ -31,7 +25,7 @@ router.post('/register', async (req, res) => {
   });
   
   // Login (with existing debugging)
-  router.post('/login', async (req, res) => {
+  app.post('/login', async (req, res) => {
     const { email, password } = req.body;
   
     try {
@@ -52,7 +46,7 @@ router.post('/register', async (req, res) => {
       return res.status(500).json({ error: 'Something went wrong' });
     }
   });
-  router.get('/users',async(req,res)=>{
+app.get('/users',async(req,res)=>{
     try{
         const users = await User.findAll()
         return res.json(users)
@@ -61,7 +55,7 @@ router.post('/register', async (req, res) => {
         return res.status(500).json({error:'something went wrong'})
     }
 })
-router.delete('/users/:uuid', async (req, res) => {
+app.delete('/users/:uuid', async (req, res) => {
     const uuid = req.params.uuid;
     try {
         const user = await User.findOne({ where: { uuid } });
@@ -79,7 +73,7 @@ router.delete('/users/:uuid', async (req, res) => {
     }
 });
 
-router.put('/users/:uuid',async(req,res)=>{
+app.put('/users/:uuid',async(req,res)=>{
     const uuid = req.params.uuid 
     const {username,email,role}=req.body
     try{
@@ -98,7 +92,7 @@ router.put('/users/:uuid',async(req,res)=>{
     }
     
 })
-router.get('/users/:uuid', async (req, res) => {
+app.get('/users/:uuid', async (req, res) => {
     const uuid = req.params.uuid;
     try {
         const user = await User.findOne({
@@ -113,7 +107,7 @@ router.get('/users/:uuid', async (req, res) => {
 // Add this route handler in your Express app
 // POST request to create an expense
 // POST request to create an expense
-router.post('/expenses', async (req, res) => {
+app.post('/expenses', async (req, res) => {
     const { uuid, category, amount, date } = req.body;
   
     // Check if all mandatory fields are present
@@ -134,7 +128,7 @@ router.post('/expenses', async (req, res) => {
   });
   
 // GET request to fetch expenses based on UUID
-router.get('/expenses/:uuid', async (req, res) => {
+app.get('/expenses/:uuid', async (req, res) => {
     const uuid = req.params.uuid; // Get UUID from route parameter
   
     try {
@@ -147,7 +141,7 @@ router.get('/expenses/:uuid', async (req, res) => {
   });
   
   
-  router.delete('/expenses', async (req, res) => {
+app.delete('/expenses', async (req, res) => {
     try {
         // Delete all posts from the posts table
         await Expenses.destroy({
@@ -162,7 +156,7 @@ router.get('/expenses/:uuid', async (req, res) => {
     }
 });
 
-router.post('/notes', async (req, res) => {
+app.post('/notes', async (req, res) => {
     const { uuid, title, body } = req.body;
     try {
         const user = await User.findOne({ where: { uuid: uuid } });
@@ -177,7 +171,7 @@ router.post('/notes', async (req, res) => {
     }
 });
 
-router.get('/notes', async (req, res) => {
+app.get('/notes', async (req, res) => {
     try {
         const posts = await Post.findAll({
             attributes: [ 'body','title', 'uuid', 'userId', 'createdAt', 'updatedAt'], // Select only necessary columns
@@ -189,7 +183,7 @@ router.get('/notes', async (req, res) => {
     }
 });
 // Update note by ID
-router.put('/notes/:id', async (req, res) => {
+app.put('/notes/:id', async (req, res) => {
     const noteId = req.params.id;
     const { title, body } = req.body;
 
@@ -217,7 +211,7 @@ router.put('/notes/:id', async (req, res) => {
     }
 });
 
-router.delete('/notes/:uuid', async (req, res) => {
+app.delete('/notes/:uuid', async (req, res) => {
     const uuid = req.params.uuid;
     try {
         const post = await Post.findOne({ where: { uuid: uuid } });
@@ -235,7 +229,7 @@ router.delete('/notes/:uuid', async (req, res) => {
     }
 });
 
-router.delete('/posts', async (req, res) => {
+app.delete('/posts', async (req, res) => {
     try {
         // Delete all posts from the posts table
         await Post.destroy({
