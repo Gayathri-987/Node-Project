@@ -1,7 +1,7 @@
 // const { Sequelize } = require('sequelize');
 const express = require('express')
 // const cors = require('cors')
-const { User} = require('./models');
+const { User} = require('./models/user');
 
 
 const app = express()
