@@ -29,9 +29,6 @@ const app = express()
 // }
 
 // testDatabaseConnection();
-  app.use("/",(req,res)=>{
-    res.status(200).send("Hello from the server");
-  })
   app.get('/users',async(req,res)=>{
     try{
         const users = await User.findAll()
