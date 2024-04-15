@@ -234,21 +234,6 @@ app.delete('/notes/:uuid', async (req, res) => {
     }
 });
 
-app.delete('/posts', async (req, res) => {
-    try {
-        // Delete all posts from the posts table
-        await Post.destroy({
-            where: {}, // Empty where clause deletes all records
-            truncate: true // This option ensures that the table is truncated (cleared)
-        });
-
-        return res.json({ message: 'All posts deleted!' });
-    } catch (err) {
-        console.error('Error deleting posts:', err);
-        return res.status(500).json({ error: 'Internal server error' });
-    }
-});
-
 const port = process.env.PORT || 5002; // Use port 5002 by default if environment variable PORT is not set
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
