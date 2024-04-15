@@ -10,6 +10,10 @@ app.use(express.json())
 app.use(cors({
     origin: 'http://localhost:3000'
   }));
+
+  app.get("/",(req,res)=>{
+    res.status(200).send("Hello from the server");
+  })
 // Registration
 app.post('/register', async (req, res) => {
     const { username, email, role, password } = req.body;
