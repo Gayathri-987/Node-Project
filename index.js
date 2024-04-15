@@ -1,4 +1,4 @@
-const { sequelize } = require('./models')
+const { Sequelize } = require('sequelize');
 const express = require('express')
 const bcrypt = require('bcrypt')
 const cors = require('cors')
@@ -11,7 +11,25 @@ app.use(express.json())
 app.use(cors({
     origin: 'http://localhost:3000'
   }));
+  const sequelize = new Sequelize({
+    dialect: 'mysql', // Specify the dialect
+    host: '127.0.0.1',
+    username: 'root',
+    password: 'Gayathri@123',
+    database: 'sequelize_db',
+});
 
+// Test the database connection
+async function testDatabaseConnection() {
+    try {
+        await sequelize.authenticate();
+        console.log('Connection to the database has been established successfully.');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+    }
+}
+
+testDatabaseConnection();
   app.get("/",(req,res)=>{
     res.status(200).send("Hello from the server");
   })
