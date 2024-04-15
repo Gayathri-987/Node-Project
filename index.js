@@ -1,6 +1,5 @@
 const { Sequelize } = require('sequelize');
 const express = require('express')
-const bcrypt = require('bcrypt')
 const cors = require('cors')
 const { User,Post,Expenses } = require('./models');
 
