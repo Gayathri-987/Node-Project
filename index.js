@@ -32,6 +32,15 @@ const app = express()
   app.use("/",(req,res)=>{
     res.status(200).send("Hello from the server");
   })
+  app.get('/users',async(req,res)=>{
+    try{
+        const users = await User.findAll()
+        return res.json(users)
+    } catch(err){
+        console.log(err)
+        return res.status(500).json({error:'something went wrong'})
+    }
+})
 // Registration
 // app.post('/register', async (req, res) => {
 //     const { username, email, role, password } = req.body;
