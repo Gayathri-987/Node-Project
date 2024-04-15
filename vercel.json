@@ -1,6 +1,6 @@
 {
     "rewrites": [
-        { "source": "/api/(.*)", "destination": "/api/$1" }, // Route API requests
-        { "source": "/(.*)", "destination": "/$1" } // Serve static assets
+        { "source": "/api/(.*)", "destination": "/api/$1" },
+        { "source": "/(.*)", "destination": "/$1" }
     ]
 }
