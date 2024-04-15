@@ -248,8 +248,9 @@ app.delete('/posts', async (req, res) => {
     }
 });
 
-app.listen({port:5000},async () =>{
-    console.log("server up on http://localhost:5000")
-    await sequelize.authenticate()
-console.log("Database connected!")
-})
+const port = process.env.PORT || 5002; // Use port 5002 by default if environment variable PORT is not set
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
+
+
